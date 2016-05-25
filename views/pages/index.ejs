@@ -1,27 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-  <% include ../partials/header.ejs %>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://cdn.mlkcca.com/v2.0.0/milkcocoa.js"></script>
+    <title>1</title>
 </head>
-
 <body>
-  あいうえお
-  <script src="http://cdn.mlkcca.com/v0.2.8/milkcocoa.js"></script>
-  <script >
-    // Milkcocoa API
-    var MilkCocoa = require('milkcocoa');
-
-    // milkcocoa object (milkcocoaというオブジェクトを使うことでMilkcocoaのAPIが使用できる)
-    var milkcocoa = new MilkCocoa('flagiodjdk8y.mlkcca.com');
-
-    // 'messages'というデータストア名のデータストアを作成（取得）
-    var ds = milkcocoa.dataStore('messages');
-
-    // titleが'hoge'、contentが'huga'というデータを送信（保存はされない）
-    ds.send({title : 'hoge', content : 'huga'});
-    // titleが'hoge'、contentが'huga'というデータを送信＆保存
-    ds.push({title : 'hoge', content : 'huga'});
-  </script>
-
+    <button id="send_button1">send1</button>
+    <div style="margin-bottom: 30px;">この下にIDが表示される</div>
+    <div  style="color:red;" id="message"></div>
+<script>
+  (function($){
+      var milkcocoa = new MilkCocoa('flagiodjdk8y.mlkcca.com');
+      var ds = milkcocoa.dataStore('messages');
+      $('#send_button1').on('click', function() {
+          ds.push({time : Date.now()});
+      });
+      ds.on('push', function(sended) {
+          $('#message').text(JSON.stringify(sended));
+      });
+  })(jQuery);
+</script>
 </body>
 </html>

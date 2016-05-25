@@ -10,6 +10,38 @@
     <button id="send_button1">send1</button>
     <div style="margin-bottom: 30px;">この下にIDが表示される</div>
     <div  style="color:red;" id="message"></div>
+
+
+    <%# START %>
+      <ul class="memberList">
+        <li>
+          <span>ID</span>
+          <span>苗字</span>
+          <span>氏名</span>
+          <span>帰り方</span>
+        </li>
+        <%# ループ --- //%>
+          <li>
+            <span><%= id %></span>
+            <span><%= famillyName %></span>
+            <span><%= flastName %></span>
+            <span><%= transportation %></span><%# ボタンから渡ってくる0~6 //%>
+          </li>
+        <%#// --- ループ %>
+      </ul>
+      <ul class="totalValue">
+          <li>
+            <%# ループ --- //%>
+              <span><%= transportation %> : </span><%# ボタンから渡ってくる0~6 //%>
+              <span><%= totalEach %></span><%# 各0~6の合計数 //%>
+            <%#// --- ループ %>
+          </li>
+          <li>
+            <span>合計人数</span>
+            <span><%= totalAll %></span><%# 0~6の全合計数 //%>
+          </li>
+      </ul>
+    <%# //- END %>
 <script>
   (function($){
       var milkcocoa = new MilkCocoa('flagiodjdk8y.mlkcca.com');

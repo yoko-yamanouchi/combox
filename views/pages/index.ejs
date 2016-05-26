@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
     <script src="http://cdn.mlkcca.com/v2.0.0/milkcocoa.js"></script>
     <title>1</title>
 </head>
@@ -13,7 +14,7 @@
 
 
     <%# START %>
-      <ul class="memberList">
+      <ul class="memberList" id="list">
         <li>
           <span>ID</span>
           <span>苗字</span>
@@ -21,36 +22,48 @@
           <span>帰り方</span>
         </li>
         <%# ループ --- //%>
-          <li>
-            <span><%= id %></span>
-            <span><%= famillyName %></span>
-            <span><%= flastName %></span>
-            <span><%= transportation %></span><%# ボタンから渡ってくる0~6 //%>
-          </li>
         <%#// --- ループ %>
       </ul>
       <ul class="totalValue">
           <li>
             <%# ループ --- //%>
-              <span><%= transportation %> : </span><%# ボタンから渡ってくる0~6 //%>
-              <span><%= totalEach %></span><%# 各0~6の合計数 //%>
             <%#// --- ループ %>
           </li>
           <li>
             <span>合計人数</span>
-            <span><%= totalAll %></span><%# 0~6の全合計数 //%>
+              <span id="total"></span>
           </li>
       </ul>
     <%# //- END %>
 <script>
+    var milkcocoa = new MilkCocoa('flagiodjdk8y.mlkcca.com');
+    var ds = milkcocoa.dataStore('messages');
+    var total = 0;
   (function($){
-      var milkcocoa = new MilkCocoa('flagiodjdk8y.mlkcca.com');
-      var ds = milkcocoa.dataStore('messages');
       $('#send_button1').on('click', function() {
           ds.push({time : Date.now()});
       });
-      ds.on('push', function(sended) {
-          $('#message').text(JSON.stringify(sended));
+
+      ds.stream().next(function(err, list) {
+          _.each(list, function(data) {
+              if (!data.value) return;
+              var v = data.value;
+              if (!v.ID) return;
+              $('#list').append('<li><span>'+(total+1)+'</span> <span>'+ v.ID + '</span> <span>'+ v.first + '</span> <span>'+ v.last + '</span></li>');
+              ++total;
+          });
+          $('#total').text(total);
+
+      });
+
+      ds.on('push', function(data) {
+          $('#message').text(JSON.stringify(data));
+          if (!data.value) return;
+          var v = data.value;
+          if (!v.ID) return;
+          $('#list').append('<li><span>'+(total+1)+'</span> <span>'+ v.ID + '</span> <span>'+ v.first + '</span> <span>'+ v.last + '</span></li>');
+          ++total;
+          $('#total').text(total);
       });
   })(jQuery);
 </script>

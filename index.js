@@ -9,6 +9,9 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+// milkcocoa の on('push', function() { // mail api を実行, -> 成功したら ds.send('success message');
+// 別途, edison 側で ds.on('send', function() { // 'success message' の場合に LED をoff
+
 app.get('/', function(request, response) {
   response.render('pages/index');
 });

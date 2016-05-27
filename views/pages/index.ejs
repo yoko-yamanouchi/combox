@@ -8,14 +8,10 @@
     <title>1</title>
 </head>
 <body>
-    <button id="send_button1">send1</button>
-    <div style="margin-bottom: 30px;">この下にIDが表示される</div>
-    <div  style="color:red;" id="message"></div>
-
-
     <%# START %>
       <ul class="memberList" id="list">
         <li>
+          <span>No</span>
           <span>ID</span>
           <span>苗字</span>
           <span>氏名</span>
@@ -36,32 +32,28 @@
       </ul>
     <%# //- END %>
 <script>
-    var milkcocoa = new MilkCocoa('flagiodjdk8y.mlkcca.com');
-    var ds = milkcocoa.dataStore('messages');
-    var total = 0;
+  var milkcocoa = new MilkCocoa('flagiodjdk8y.mlkcca.com');
+  var ds = milkcocoa.dataStore('messages');
+  var total = 0;
   (function($){
-      $('#send_button1').on('click', function() {
-          ds.push({time : Date.now()});
-      });
-
       ds.stream().next(function(err, list) {
           _.each(list, function(data) {
               if (!data.value) return;
               var v = data.value;
+              var rootName = { "0":"未定", "1":"バス１", "2":"バス２", "3":"自家用車", "4":"徒歩", "5":"その他１", "6":"その他２" };
+
               if (!v.ID) return;
-              $('#list').append('<li><span>'+(total+1)+'</span> <span>'+ v.ID + '</span> <span>'+ v.first + '</span> <span>'+ v.last + '</span></li>');
+              $('#list').append('<li><span>'+(total+1)+'</span> <span>'+ v.ID + '</span> <span>'+ v.first + '</span> <span>'+ v.last + '</span> <span>'+ rootName[v.root] + '</span></li>');
               ++total;
           });
           $('#total').text(total);
 
       });
-
       ds.on('push', function(data) {
-          $('#message').text(JSON.stringify(data));
           if (!data.value) return;
           var v = data.value;
           if (!v.ID) return;
-          $('#list').append('<li><span>'+(total+1)+'</span> <span>'+ v.ID + '</span> <span>'+ v.first + '</span> <span>'+ v.last + '</span></li>');
+          $('#list').append('<li><span>'+(total+1)+'</span> <span>'+ v.ID + '</span> <span>'+ v.first + '</span> <span>'+ v.last + '</span> <span>'+ v.root + '</span></li>');
           ++total;
           $('#total').text(total);
       });

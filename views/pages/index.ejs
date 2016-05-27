@@ -2,9 +2,9 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <script src="http://underscorejs.org/underscore-min.js"></script>
-    <script src="http://cdn.mlkcca.com/v2.0.0/milkcocoa.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="//underscorejs.org/underscore-min.js"></script>
+    <script src="//cdn.mlkcca.com/v2.0.0/milkcocoa.js"></script>
     <title>1</title>
 </head>
 <body>
@@ -22,12 +22,19 @@
       </ul>
       <ul class="totalValue">
           <li>
-            <%# ループ --- //%>
-            <%#// --- ループ %>
+            <span>各合計人数</span>
+            <span id="eachName"></span><span id="eachTotal"></span>
+            <!--
+            <span id="eachName">未定</span><span id="eachTotal">15</span>
+            <span id="eachName">バス1</span><span id="eachTotal">5</span>
+            <span id="eachName">バス2</span><span id="eachTotal">8</span>
+            <span id="eachName">自家用車</span><span id="eachTotal">25</span>
+            <span id="eachName">徒歩</span><span id="eachTotal">15</span>
+            -->
           </li>
           <li>
             <span>合計人数</span>
-              <span id="total"></span>
+            <span id="total"></span>
           </li>
       </ul>
     <%# //- END %>

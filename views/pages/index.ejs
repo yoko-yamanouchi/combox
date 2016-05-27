@@ -1,70 +1,64 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <script src="//underscorejs.org/underscore-min.js"></script>
-    <script src="//cdn.mlkcca.com/v2.0.0/milkcocoa.js"></script>
-    <title>1</title>
+  <% include ../partials/header.ejs %>
 </head>
 <body>
-    <%# START %>
-      <ul class="memberList" id="list">
-        <li>
-          <span>No</span>
-          <span>ID</span>
-          <span>苗字</span>
-          <span>氏名</span>
-          <span>帰り方</span>
-        </li>
-        <%# ループ --- //%>
-        <%#// --- ループ %>
-      </ul>
-      <ul class="totalValue">
-          <li>
-            <span>各合計人数</span>
-            <span id="eachName"></span><span id="eachTotal"></span>
-            <!--
-            <span id="eachName">未定</span><span id="eachTotal">15</span>
-            <span id="eachName">バス1</span><span id="eachTotal">5</span>
-            <span id="eachName">バス2</span><span id="eachTotal">8</span>
-            <span id="eachName">自家用車</span><span id="eachTotal">25</span>
-            <span id="eachName">徒歩</span><span id="eachTotal">15</span>
-            -->
-          </li>
-          <li>
-            <span>合計人数</span>
-            <span id="total"></span>
-          </li>
-      </ul>
-    <%# //- END %>
-<script>
-  var milkcocoa = new MilkCocoa('flagiodjdk8y.mlkcca.com');
-  var ds = milkcocoa.dataStore('messages');
-  var total = 0;
-  (function($){
-      ds.stream().next(function(err, list) {
-          _.each(list, function(data) {
-              if (!data.value) return;
-              var v = data.value;
-              var rootName = { "0":"未定", "1":"バス１", "2":"バス２", "3":"自家用車", "4":"徒歩", "5":"その他１", "6":"その他２" };
+  <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
+    <header class="demo-header mdl-layout__header mdl-layout__header--scroll mdl-color--grey-100 mdl-color-text--grey-800">
+      <div class="mdl-layout__header-row">
+        <h3>Field Hack ONAGAWA</h3>
+      </div>
+    </header>
+    <div class="demo-ribbon"></div>
+    <main class="demo-main mdl-layout__content">
 
-              if (!v.ID) return;
-              $('#list').append('<li><span>'+(total+1)+'</span> <span>'+ v.ID + '</span> <span>'+ v.first + '</span> <span>'+ v.last + '</span> <span>'+ rootName[v.root] + '</span></li>');
-              ++total;
-          });
-          $('#total').text(total);
-
-      });
-      ds.on('push', function(data) {
-          if (!data.value) return;
-          var v = data.value;
-          if (!v.ID) return;
-          $('#list').append('<li><span>'+(total+1)+'</span> <span>'+ v.ID + '</span> <span>'+ v.first + '</span> <span>'+ v.last + '</span> <span>'+ v.root + '</span></li>');
-          ++total;
-          $('#total').text(total);
-      });
-  })(jQuery);
-</script>
+      <div class="demo-container mdl-grid">
+        <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+        <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+            <h1>KOU school member list</h1>
+            <div class="totalValue">Total : <span id="total"></span></div>
+            <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp">
+              <thead>
+                <tr>
+                  <th class="mdl-data-table__cell--non-numeric">No</th>
+                  <th>ID</th>
+                  <th>名字</th>
+                  <th>氏名</th>
+                  <th>帰り方</th>
+                </tr>
+              </thead>
+              <tbody id="list"></tbody>
+            </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>
+    var milkcocoa = new MilkCocoa('flagiodjdk8y.mlkcca.com');
+    var ds = milkcocoa.dataStore('messages');
+    var total = 0;
+    (function($){
+        ds.stream().next(function(err, list) {
+            _.each(list, function(data) {
+                if (!data.value) return;
+                var v = data.value;
+                var rootName = { "0":"未定", "1":"バス１", "2":"バス２", "3":"自家用車", "4":"徒歩", "5":"その他１", "6":"その他２" };
+                if (!v.ID) return;
+                $('#list').append('<tr><td class="mdl-data-table__cell--non-numeric">'+(total+1)+'</td> <td>'+ v.ID + '</td> <td>'+ v.first + '</td> <td>'+ v.last + '</td> <td>'+ rootName[v.root] + '</td></tr>');
+                ++total;
+            });
+            $('#total').text(total);
+        });
+        ds.on('push', function(data) {
+            if (!data.value) return;
+            var v = data.value;
+            if (!v.ID) return;
+            $('#list').append('<tr><td class="mdl-data-table__cell--non-numeric">'+(total+1)+'</td> <td>'+ v.ID + '</td> <td>'+ v.first + '</td> <td>'+ v.last + '</td> <td>'+ rootName[v.root] + '</td></tr>');
+            ++total;
+            $('#total').text(total);
+        });
+    })(jQuery);
+  </script>
 </body>
 </html>

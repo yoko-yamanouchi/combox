@@ -1,7 +1,6 @@
 {
-  "name": "node-js-getting-started",
-  "version": "0.2.5",
-  "description": "A sample Node.js app using Express 4",
+  "name": "comBox",
+  "description": "comBox",
   "engines": {
     "node": "5.9.1"
   },
@@ -15,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "https://github.com/yoko-yamanouchi/combox"
   },
   "keywords": [
     "node",

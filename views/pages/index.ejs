@@ -23,8 +23,8 @@
                 <tr>
                   <th class="mdl-data-table__cell--non-numeric">No</th>
                   <th>ID</th>
-                  <th>名字</th>
-                  <th>氏名</th>
+                  <th>氏</th>
+                  <th>名</th>
                   <th>帰り方</th>
                 </tr>
               </thead>
@@ -45,7 +45,7 @@
                 var v = data.value;
                 var rootName = { "0":"未定", "1":"バス１", "2":"バス２", "3":"自家用車", "4":"徒歩", "5":"その他１", "6":"その他２" };
                 if (!v.ID) return;
-                $('#list').append('<tr><td class="mdl-data-table__cell--non-numeric">'+(total+1)+'</td> <td>'+ v.ID + '</td> <td>'+ v.first + '</td> <td>'+ v.last + '</td> <td>'+ rootName[v.root] + '</td></tr>');
+                $('#list').append('<tr><td class="mdl-data-table__cell--non-numeric">'+(total+1)+'</td> <td>'+ v.ID + '</td> <td>'+ v.last + '</td> <td>'+ v.first + '</td> <td>'+ rootName[v.root] + '</td></tr>');
                 ++total;
             });
             $('#total').text(total);
@@ -54,7 +54,7 @@
             if (!data.value) return;
             var v = data.value;
             if (!v.ID) return;
-            $('#list').append('<tr><td class="mdl-data-table__cell--non-numeric">'+(total+1)+'</td> <td>'+ v.ID + '</td> <td>'+ v.first + '</td> <td>'+ v.last + '</td> <td>'+ rootName[v.root] + '</td></tr>');
+            $('#list').append('<tr><td class="mdl-data-table__cell--non-numeric">'+(total+1)+'</td> <td>'+ v.ID + '</td> <td>'+ v.last + '</td> <td>'+ v.first + '</td> <td>'+ rootName[v.root] + '</td></tr>');
             ++total;
             $('#total').text(total);
         });

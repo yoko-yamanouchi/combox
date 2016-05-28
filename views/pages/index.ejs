@@ -30,31 +30,89 @@
               </thead>
               <tbody id="list"></tbody>
             </table>
+
+            <h3>サマリー</h3>
+            <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp">
+              <thead>
+                <tr>
+                  <th class="mdl-data-table__cell--non-numeric">帰り方</th>
+                  <th>人数</th>
+                </tr>
+              </thead>
+              <tbody id="summary"></tbody>
+            </table>
         </div>
       </div>
     </main>
   </div>
   <script>
+    var formatDate = function (date, format) {
+      if (!format) format = 'YYYY-MM-DD hh:mm:ss.SSS';
+      format = format.replace(/YYYY/g, date.getFullYear());
+      format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
+      format = format.replace(/DD/g, ('0' + date.getDate()).slice(-2));
+      format = format.replace(/hh/g, ('0' + date.getHours()).slice(-2));
+      format = format.replace(/mm/g, ('0' + date.getMinutes()).slice(-2));
+      format = format.replace(/ss/g, ('0' + date.getSeconds()).slice(-2));
+      if (format.match(/S/g)) {
+        var milliSeconds = ('00' + date.getMilliseconds()).slice(-3);
+        var length = format.match(/S/g).length;
+        for (var i = 0; i < length; i++) format = format.replace(/S/, milliSeconds.substring(i, i + 1));
+      }
+      return format;
+    };
     var milkcocoa = new MilkCocoa('flagiodjdk8y.mlkcca.com');
     var ds = milkcocoa.dataStore('messages');
     var total = 0;
+    var roots = {
+      "0": { "name" : "未定", "sum" : 0 }
+      , "1": { "name" : "バス１", "sum" : 0 }
+      , "2": { "name" : "バス２", "sum" : 0 }
+      , "3": { "name" : "自家用車", "sum" : 0 }
+      , "4": { "name" : "徒歩", "sum" : 0 }
+      , "5": { "name" : "その他１", "sum" : 0 }
+      , "6": { "name" : "その他２" , "sum" : 0 }
+    };
     (function($){
         ds.stream().next(function(err, list) {
+
+            // dataを後勝ちで上書き 
+            var tmp = {};
             _.each(list, function(data) {
+                var id = data.value.ID;
+                tmp[id] = data;
+            });
+
+            // テーブル表示
+            _.each(tmp, function(data) {
                 if (!data.value) return;
                 var v = data.value;
-                var rootName = { "0":"未定", "1":"バス１", "2":"バス２", "3":"自家用車", "4":"徒歩", "5":"その他１", "6":"その他２" };
+                var d = new Date(data.timestamp);
+                //console.log(d, formatDate(d, 'MM月DD日'));
                 if (!v.ID) return;
-                $('#list').append('<tr><td class="mdl-data-table__cell--non-numeric">'+(total+1)+'</td> <td>'+ v.ID + '</td> <td>'+ v.last + '</td> <td>'+ v.first + '</td> <td>'+ rootName[v.root] + '</td></tr>');
+                var root = roots[v.root];
+                root.sum++;
+                $('#list').append('<tr><td class="mdl-data-table__cell--non-numeric">'+(total+1)+'</td> <td>'+ v.ID + '</td> <td>'+ v.last + '</td> <td>'+ v.first +　'</td> <td>'+ root.name + '</td></tr>');
                 ++total;
             });
             $('#total').text(total);
+            
+            // サマリー表示
+            _.each(roots, function(root) {
+                $('#summary').append('<tr><td class="mdl-data-table__cell--non-numeric">' + root.name + '</td> <td>'+ root.sum + '</td></tr>');
+            });
+
+            /*for (var key in roots) {
+                var root = roots[key];
+                $('#summary').append('<tr><td class="mdl-data-table__cell--non-numeric">'+key+'</td> <td>'+ root.name + '</td> <td>'+ root.sum + '</td></tr>');
+            }*/
         });
         ds.on('push', function(data) {
             if (!data.value) return;
             var v = data.value;
             if (!v.ID) return;
-            $('#list').append('<tr><td class="mdl-data-table__cell--non-numeric">'+(total+1)+'</td> <td>'+ v.ID + '</td> <td>'+ v.last + '</td> <td>'+ v.first + '</td> <td>'+ rootName[v.root] + '</td></tr>');
+            var root = roots[v.root];
+            $('#list').append('<tr><td class="mdl-data-table__cell--non-numeric">'+(total+1)+'</td> <td>'+ v.ID + '</td> <td>'+ v.last + '</td> <td>'+ v.first + '</td> <td>'+ root.name + '</td></tr>');
             ++total;
             $('#total').text(total);
         });

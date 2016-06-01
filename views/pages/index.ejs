@@ -7,40 +7,39 @@
   <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
     <header class="demo-header mdl-layout__header mdl-layout__header--scroll mdl-color--grey-100 mdl-color-text--grey-800">
       <div class="mdl-layout__header-row">
-        <h3>Field Hack ONAGAWA</h3>
+        <h2>Field Hack ONAGAWA</h2>
       </div>
     </header>
     <div class="demo-ribbon"></div>
     <main class="demo-main mdl-layout__content">
-
       <div class="demo-container mdl-grid">
         <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
-        <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
-            <h1>KOU school member list</h1>
-            <div class="totalValue">Total : <span id="total"></span></div>
-            <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp">
-              <thead>
-                <tr>
-                  <th class="mdl-data-table__cell--non-numeric">No</th>
-                  <th>ID</th>
-                  <th>氏</th>
-                  <th>名</th>
-                  <th>帰り方</th>
-                </tr>
-              </thead>
-              <tbody id="list"></tbody>
-            </table>
-
-            <h3>サマリー</h3>
-            <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp">
-              <thead>
-                <tr>
-                  <th class="mdl-data-table__cell--non-numeric">帰り方</th>
-                  <th>人数</th>
-                </tr>
-              </thead>
-              <tbody id="summary"></tbody>
-            </table>
+        <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800">
+            <h3>KOU school member list</h3>
+            <div class="total-wrapper">Total : <span id="total"></span></div>
+            <div class="list-wrapper">
+              <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp mr-b2">
+                <thead>
+                  <tr>
+                    <th class="mdl-data-table__cell--non-numeric">No</th>
+                    <th>ID</th>
+                    <th>氏</th>
+                    <th>名</th>
+                    <th>帰り方</th>
+                  </tr>
+                </thead>
+                <tbody id="list"></tbody>
+              </table>
+              <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                <thead>
+                  <tr>
+                    <th class="mdl-data-table__cell--non-numeric">帰り方</th>
+                    <th>人数</th>
+                  </tr>
+                </thead>
+                <tbody id="summary"></tbody>
+              </table>
+            </div>
         </div>
       </div>
     </main>
@@ -76,7 +75,7 @@
     (function($){
         ds.stream().next(function(err, list) {
 
-            // dataを後勝ちで上書き 
+            // dataを後勝ちで上書き
             var tmp = {};
             _.each(list, function(data) {
                 var id = data.value.ID;
@@ -96,7 +95,7 @@
                 ++total;
             });
             $('#total').text(total);
-            
+
             // サマリー表示
             _.each(roots, function(root) {
                 $('#summary').append('<tr><td class="mdl-data-table__cell--non-numeric">' + root.name + '</td> <td>'+ root.sum + '</td></tr>');

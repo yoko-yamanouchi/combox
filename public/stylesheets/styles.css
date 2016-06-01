@@ -52,8 +52,18 @@ h2 {
   padding: 0 40px;
 }
 
+h3 {
+  margin-bottom: 0;
+}
+
+.total-wrapper {
+  text-align: right;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
 .mdl-data-table {
-  width: 100%;
+  width: auto;
   font-size: 1.3rem;
 }
 
@@ -61,15 +71,12 @@ h2 {
   background-color: #bdbdbd;
 }
 
-.demo-content {
-  position: relative;
+.list-wrapper {
+  display: flex;
 }
 
-.totalValue {
-  position: absolute;
-  right: 95px;
-  top: 135px;
-  font-size: 2rem;
+.demo-content {
+  position: relative;
 }
 
 .mdl-layout__header-row {
@@ -88,3 +95,6 @@ h2 {
   text-align: left;
 }
 
+.mr-b2 {
+  margin-right: 8px;
+}
